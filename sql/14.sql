@@ -1,7 +1,8 @@
-/*
- * Create a report that shows the total revenue per month and year.
- *
- * HINT:
- * This query is very similar to the previous problem,
- * but requires an additional JOIN.
- */
+SELECT
+    EXTRACT(YEAR FROM r.rental_date)::int AS "Year",
+    EXTRACT(MONTH FROM r.rental_date)::int AS "Month",
+    SUM(p.amount) AS "Total Revenue"
+FROM payment p
+JOIN rental r ON p.rental_id = r.rental_id
+GROUP BY ROLLUP("Year", "Month")
+ORDER BY "Year", "Month";
